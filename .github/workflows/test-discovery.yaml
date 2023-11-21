@@ -5,7 +5,7 @@ on: [pull_request, workflow_dispatch, push]
 env:
   API_HOST: d-j02.apiconnect.dev.automation.ibm.com
   PROVIDER_ORG: amal2011
-  API_FILES: echo-api.yaml
+  API_FILES: echo-api.yaml, APIfolder/petstore.yaml
 
 jobs:
   run-discovery:

@@ -5,7 +5,7 @@ on: [pull_request, workflow_dispatch, push]
 env:
   API_HOST: d-j02.apiconnect.dev.automation.ibm.com
   PROVIDER_ORG: amal2011
-  API_FOLDERS: APIfolder
+  API_FILES: echo-api.yaml
 
 jobs:
   run-discovery:

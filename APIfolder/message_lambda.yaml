@@ -1,0 +1,97 @@
+swagger: '2.0'
+info:
+  title: Message
+  x-ibm-name: message-api
+  version: 1.0.0
+  contact:
+    name: Ricky Moorhouse
+    email: moorh@uk.ibm.com
+host: $(catalog.host)
+schemes:
+  - https
+basePath: /public
+produces:
+  - application/json
+security: []
+securityDefinitions:
+  basicAuth:
+    type: basic
+    description: Basic auth against ops.apim.ibmcloud.com
+    x-ibm-authentication-url:
+      url: https://ops.apim.ibmcloud.com/
+x-ibm-configuration:
+  assembly:
+    execute:
+      - aws-lambda:
+          version: 1.0.0
+          title: lambda
+      - aws-lambda:
+          version: 1.0.0
+          title: lambda
+          aws_assume_role_arn: >-
+            arn:aws:iam::091790783357:role/AP_B_G_SSRE_apic_LambdaInvokeAdvanced
+          function_name: echo
+          aws_region: us-east-1
+    finally: []
+  gateway: datapower-api-gateway
+  enforced: true
+  testable: true
+  phase: realized
+  cors:
+    enabled: true
+  type: rest
+  activity-log:
+    enabled: true
+    error-content: header
+    success-content: activity
+  application-authentication:
+    certificate: false
+parameters:
+  text:
+    name: text
+    type: string
+    required: false
+    in: query
+    description: Text passed in
+paths:
+  /echo:
+    get:
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/responseObject'
+      parameters:
+        - $ref: '#/parameters/text'
+    post:
+      tags:
+        - pet
+      summary: Add a new pet to the store
+      description: ''
+      operationId: addPet
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Pet object that needs to be added to the store
+          required: true
+          schema:
+            $ref: '#/definitions/Message'
+      responses:
+        '405':
+          description: Invalid input
+definitions:
+  responseObject:
+    properties:
+      text:
+        type: string
+  Message:
+    type: object
+    properties:
+      message:
+        type: string
